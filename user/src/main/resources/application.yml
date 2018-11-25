@@ -4,7 +4,7 @@ server:
 
 spring:
   datasource:
-              url: jdbc:postgresql://localhost:5432/NearbyStores
+              url: jdbc:postgresql://localhost:5432/NearbyShops
               username: sadiki
               password: taha96
 

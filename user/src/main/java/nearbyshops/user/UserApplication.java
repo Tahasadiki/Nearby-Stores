@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 @EnableEurekaClient
-@EnableJpaRepositories(basePackages = "nearbystores.user.repository")
+@EnableJpaRepositories(basePackages = "nearbyshops.user.repository")
 @SpringBootApplication
 public class UserApplication {
 
