@@ -1,14 +1,18 @@
 package nearbyshops.user.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+
+import nearbyshops.user.dto.DislikedShopDTO;
+import nearbyshops.user.dto.PreferredShopDTO;
 import nearbyshops.user.entity.DislikedShop;
 import nearbyshops.user.entity.PreferredShop;
 import nearbyshops.user.entity.User;
 import nearbyshops.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -29,23 +33,23 @@ public class UserController {
 
     @GetMapping("/$email={user_email}")
     @ApiOperation("Get user by email")
-    public User getUserByEmail(String email){
+    public User getUserByEmail(@PathVariable("user_email") String email){
         User user = userService.getUserByEmail(email);
         return user;
     }
 
     @GetMapping("/$id={user_id}/preferredShops")
     @ApiOperation("Get user preferred shops")
-    public List<PreferredShop> getUserPrefferedShops(@PathVariable("user_id") long id){
-        List<PreferredShop> preferredShops = userService.getUserPrefferedShops(id);
-        return preferredShops;
+    public List<PreferredShopDTO> getUserPrefferedShops(@PathVariable("user_id") long id){
+        List<PreferredShopDTO> preferredShopsDTO = userService.getUserPrefferedShops(id);
+        return preferredShopsDTO;
     }
 
     @GetMapping("/$id={user_id}/dislikedShops")
     @ApiOperation("Get user disliked shops list")
-    public List<DislikedShop> getUserDislikedShops(@PathVariable("user_id") long id){
-        List<DislikedShop> dislikedShops = userService.updatedUserDislikedShops(id);
-        return dislikedShops;
+    public List<DislikedShopDTO> getUserDislikedShops(@PathVariable("user_id") long id){
+        List<DislikedShopDTO> dislikedShopsDTO = userService.updatedUserDislikedShops(id);
+        return dislikedShopsDTO;
     }
 
     @PostMapping("/addUser")

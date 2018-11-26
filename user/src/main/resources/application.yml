@@ -5,7 +5,7 @@ server:
 spring:
   datasource:
               url: jdbc:postgresql://localhost:5432/NearbyShops
-              username: sadiki
+              username: postgres
               password: taha96
 
   jpa:
@@ -14,7 +14,8 @@ spring:
     show-sql: true
 
   application:
-    name: userService
+    name: userApp
+
 eureka:
   client:
     register-with-eureka: true

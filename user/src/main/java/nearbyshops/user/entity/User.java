@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-
+@Table(name = "users") // in order to avoid the reserved word "user"
 public class User {
 
     @Id
@@ -35,7 +35,6 @@ public class User {
     }
 
     public User() {
-
     }
 
 
@@ -85,6 +84,7 @@ public class User {
         this.password = password;
     }
 
+
     public List<PreferredShop> getPreferredShops() {
         return preferredShops;
     }
@@ -100,4 +100,5 @@ public class User {
     public void setDislikedShops(List<DislikedShop> dislikedShops) {
         this.dislikedShops = dislikedShops;
     }
+
 }

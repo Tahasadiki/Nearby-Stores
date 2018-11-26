@@ -1,8 +1,12 @@
 package nearbyshops.user.service.impl;
 
+import nearbyshops.user.dto.DislikedShopDTO;
+import nearbyshops.user.dto.PreferredShopDTO;
 import nearbyshops.user.entity.DislikedShop;
 import nearbyshops.user.entity.PreferredShop;
 import nearbyshops.user.entity.User;
+import nearbyshops.user.mapper.Mapper;
+import nearbyshops.user.mapper.impl.MapperImpl;
 import nearbyshops.user.repository.DislikedShopRepository;
 import nearbyshops.user.repository.PreferredShopRepository;
 import nearbyshops.user.repository.UserRepository;
@@ -10,6 +14,7 @@ import nearbyshops.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +33,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     PreferredShopRepository preferredShopRepository;
 
+    @Autowired
+    Mapper mapper;
+
 
     public User getUserById(long id) {
         User user = userRepository.findUserById(id);
@@ -36,12 +44,13 @@ public class UserServiceImpl implements UserService {
 
     public User getUserByEmail(String email) {
         User user = userRepository.findUserByEmail(email);
-        return null;
+        return user;
     }
 
-    public List<PreferredShop> getUserPrefferedShops(long id) {
-        User user = getUserById(id);
-        return user.getPreferredShops();
+    public List<PreferredShopDTO> getUserPrefferedShops(long id) {
+        List<PreferredShopDTO> preferredShopsDTO = new ArrayList<>();
+        preferredShopsDTO = mapper.map(getUserById(id).getPreferredShops());
+        return preferredShopsDTO;
     }
 
 
@@ -51,6 +60,8 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = new User(email,password);
+        user.setDislikedShops(new ArrayList<>());
+        user.setPreferredShops(new ArrayList<>());
         userRepository.save(user);
         return true;
     }
@@ -100,7 +111,9 @@ public class UserServiceImpl implements UserService {
     }
 
     // get updated disliked shops list based on how much time passed since the user disliked each shop in the list
-    public List<DislikedShop> updatedUserDislikedShops(long user_id) {
+    public List<DislikedShopDTO> updatedUserDislikedShops(long user_id) {
+        List<DislikedShopDTO> dislikedShopsDTO = new ArrayList<>();
+
         User user = getUserById(user_id);
         Date currentDateTime = new Date();
         long threshold = 2; // in hours
@@ -113,11 +126,14 @@ public class UserServiceImpl implements UserService {
             if(diffHours > threshold){
                 user.removeDislikedShop(dislikedShop);
                 dislikedShopRepository.delete(dislikedShop);
+            }else{
+                dislikedShopsDTO.add(mapper.map(dislikedShop));
             }
 
         }
-        return user.getDislikedShops();
+        return dislikedShopsDTO;
     }
+
 
     public boolean isUserExist(String email) {
         if (getUserByEmail(email)==null){
@@ -125,4 +141,5 @@ public class UserServiceImpl implements UserService {
         }
         return true;
     }
+
 }
