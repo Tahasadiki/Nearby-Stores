@@ -3,6 +3,7 @@ package nearbyshops.user.controller;
 
 import nearbyshops.user.dto.DislikedShopDTO;
 import nearbyshops.user.dto.PreferredShopDTO;
+import nearbyshops.user.dto.ShopDTO;
 import nearbyshops.user.entity.DislikedShop;
 import nearbyshops.user.entity.PreferredShop;
 import nearbyshops.user.entity.User;
@@ -40,8 +41,8 @@ public class UserController {
 
     @GetMapping("/$id={user_id}/preferredShops")
     @ApiOperation("Get user preferred shops")
-    public List<PreferredShopDTO> getUserPrefferedShops(@PathVariable("user_id") long id){
-        List<PreferredShopDTO> preferredShopsDTO = userService.getUserPrefferedShops(id);
+    public List<PreferredShopDTO> getUserPreferredShops(@PathVariable("user_id") long id){
+        List<PreferredShopDTO> preferredShopsDTO = userService.getUserPreferredShops(id);
         return preferredShopsDTO;
     }
 
@@ -58,16 +59,16 @@ public class UserController {
         return userService.addUser(email,password);
     }
 
-    @PutMapping("/addPreferredShop/$user_id{user_id}$shop_id{shop_id}")
+    @PutMapping("/addPreferredShop/$user_id{user_id}")
     @ApiOperation("Add shop to user preferred shops list")
-    public boolean addShopToUserPrefferedShops(@PathVariable("user_id") long user_id,@PathVariable("shop_id") String shop_id){
-        return userService.addShopToUserPrefferedShops(user_id,shop_id);
+    public boolean addShopToUserPreferredShops(@PathVariable("user_id") long user_id, @RequestBody ShopDTO shop){
+        return userService.addShopToUserPreferredShops(user_id,shop);
     }
 
     @PutMapping("/removePreferredShop/$user_id{user_id}$shop_id{shop_id}")
     @ApiOperation("Remove shop from user preferred shops list")
-    public boolean removeShopFromUserPrefferedShops(@PathVariable("user_id") long user_id,@PathVariable("shop_id") long shop_id){
-        return userService.removeShopFromUserPrefferedShops(user_id,shop_id);
+    public boolean removeShopFromUserPreferredShops(@PathVariable("user_id") long user_id,@PathVariable("shop_id") long shop_id){
+        return userService.removeShopFromUserPreferredShops(user_id,shop_id);
     }
 
     @PutMapping("/addDislikedShop/$user_id{user_id}$shop_id{shop_id}")

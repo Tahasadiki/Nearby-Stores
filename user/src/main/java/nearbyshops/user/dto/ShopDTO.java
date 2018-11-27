@@ -1,22 +1,9 @@
-package nearbyshops.user.entity;
+package nearbyshops.user.dto;
 
-import javax.persistence.*;
-import java.util.Date;
+
 import java.util.List;
 
-@Entity
-
-public class DislikedShop {
-
-    @Id
-    @GeneratedValue
-    private long id;
-
-    private Date dislikingTime;
-
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name="user_id")
-    private User user;
+public class ShopDTO {
 
     private String shop_id; // id provided by the TomTom search API (unstable)
     private String name;
@@ -30,24 +17,7 @@ public class DislikedShop {
     private List<String> categories;
     private String imgUrl;
 
-
-
-
-    public DislikedShop() {
-    }
-
-    public DislikedShop(String shop_id, Date dislikingTime, User user) {
-        this.shop_id = shop_id;
-        this.dislikingTime = dislikingTime;
-        this.user = user;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+    public ShopDTO() {
     }
 
     public String getShop_id() {
@@ -56,22 +26,6 @@ public class DislikedShop {
 
     public void setShop_id(String shop_id) {
         this.shop_id = shop_id;
-    }
-
-    public Date getDislikingTime() {
-        return dislikingTime;
-    }
-
-    public void setDislikingTime(Date dislikingTime) {
-        this.dislikingTime = dislikingTime;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public String getName() {

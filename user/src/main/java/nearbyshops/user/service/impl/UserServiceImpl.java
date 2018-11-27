@@ -2,6 +2,7 @@ package nearbyshops.user.service.impl;
 
 import nearbyshops.user.dto.DislikedShopDTO;
 import nearbyshops.user.dto.PreferredShopDTO;
+import nearbyshops.user.dto.ShopDTO;
 import nearbyshops.user.entity.DislikedShop;
 import nearbyshops.user.entity.PreferredShop;
 import nearbyshops.user.entity.User;
@@ -47,7 +48,7 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    public List<PreferredShopDTO> getUserPrefferedShops(long id) {
+    public List<PreferredShopDTO> getUserPreferredShops(long id) {
         List<PreferredShopDTO> preferredShopsDTO = new ArrayList<>();
         preferredShopsDTO = mapper.map(getUserById(id).getPreferredShops());
         return preferredShopsDTO;
@@ -72,11 +73,10 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    public boolean addShopToUserPrefferedShops(long user_id, String shop_id) {
+    public boolean addShopToUserPreferredShops(long user_id, ShopDTO shop) {
         User user = getUserById(user_id);
 
-        PreferredShop preferredShop = new PreferredShop();
-        preferredShop.setShop_id(shop_id);
+        PreferredShop preferredShop = mapper.map(shop, new PreferredShop());
 
         user.addPrefferedShop(preferredShop);
         preferredShopRepository.save(preferredShop);
@@ -85,8 +85,8 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    public boolean removeShopFromUserPrefferedShops(long user_id, long shop_id) {
-        // shop_id here is the id of the row in the prefferedshop table
+    public boolean removeShopFromUserPreferredShops(long user_id, long shop_id) {
+        // shop_id here is the id of the row in the preferredShops table
 
         User user = getUserById(user_id);
 
@@ -98,12 +98,11 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    public boolean addShopToUserDislikedShops(long user_id, String shop_id) {
+    public boolean addShopToUserDislikedShops(long user_id, ShopDTO shop) {
         User user = getUserById(user_id);
 
-        DislikedShop dislikedShop = new DislikedShop();
-        dislikedShop.setShop_id(shop_id);
-        dislikedShop.setDislikingTime(new Date()); // setting current time
+        DislikedShop dislikedShop = mapper.map(shop, new DislikedShop());
+        dislikedShop.setDislikingTime(new Date()); // dislikingTime = current time
 
         user.addDislikedShop(dislikedShop);
         dislikedShopRepository.save(dislikedShop);
