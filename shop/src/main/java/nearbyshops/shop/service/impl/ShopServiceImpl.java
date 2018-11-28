@@ -41,7 +41,7 @@ public class ShopServiceImpl implements ShopService {
         ShopListDTO results = restTemplateTom.getForObject(query,ShopListDTO.class);
 
         List<ShopDTO> shops = mapper.map(results);
-        
+
         return shops;
     }
 }

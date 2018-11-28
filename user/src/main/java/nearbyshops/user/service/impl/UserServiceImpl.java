@@ -1,23 +1,20 @@
 package nearbyshops.user.service.impl;
 
-import nearbyshops.user.dto.DislikedShopDTO;
-import nearbyshops.user.dto.PreferredShopDTO;
-import nearbyshops.user.dto.ShopDTO;
+import nearbyshops.user.dto.*;
 import nearbyshops.user.entity.DislikedShop;
 import nearbyshops.user.entity.PreferredShop;
+import nearbyshops.user.entity.Role;
 import nearbyshops.user.entity.User;
 import nearbyshops.user.mapper.Mapper;
-import nearbyshops.user.mapper.impl.MapperImpl;
 import nearbyshops.user.repository.DislikedShopRepository;
 import nearbyshops.user.repository.PreferredShopRepository;
+import nearbyshops.user.repository.RoleRepository;
 import nearbyshops.user.repository.UserRepository;
 import nearbyshops.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static java.lang.Math.abs;
 
@@ -35,6 +32,9 @@ public class UserServiceImpl implements UserService {
     PreferredShopRepository preferredShopRepository;
 
     @Autowired
+    RoleRepository roleRepository;
+
+    @Autowired
     Mapper mapper;
 
 
@@ -49,22 +49,25 @@ public class UserServiceImpl implements UserService {
     }
 
     public List<PreferredShopDTO> getUserPreferredShops(long id) {
-        List<PreferredShopDTO> preferredShopsDTO = new ArrayList<>();
+        List<PreferredShopDTO> preferredShopsDTO;
         preferredShopsDTO = mapper.map(getUserById(id).getPreferredShops());
         return preferredShopsDTO;
     }
 
 
-    public boolean addUser(String email,String password) {
-        if (isUserExist(email)){
+    public boolean addUser(UserDetailsModel userDetailsModel) {
+        if (isUserExist(userDetailsModel.getEmail())){
             return false;
         }
 
-        User user = new User(email,password);
-        user.setDislikedShops(new ArrayList<>());
-        user.setPreferredShops(new ArrayList<>());
+        User user = mapper.map(userDetailsModel);
+        Role role = roleRepository.findRoleByRole("USER");
+        user.addRole(role);
+
+        roleRepository.save(role);
         userRepository.save(user);
         return true;
+
     }
 
     public boolean removeUser(long id) {
@@ -72,13 +75,47 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    public boolean addRole(Role role){
+        if (roleRepository.findRoleByRole(role.getRole())==null){
+            Role newRole = new Role(role.getRole());
+            roleRepository.save(newRole);
+        }
+        return true;
+    }
+
+    @Override
+    public UserDetailsModel getUserDetailsById(long id) {
+        User user = getUserById(id);
+        UserDetailsModel userDetails = new UserDetailsModel();
+
+        List<RoleDTO> rolesDTO = new ArrayList<>();
+
+        userDetails.setPassword(user.getPassword());
+        userDetails.setEmail(user.getEmail());
+        userDetails.setRoles(mapper.map(user.getRoles(),rolesDTO));
+        return userDetails;
+    }
+
+    @Override
+    public UserDetailsModel getUserDetailsByEmail(String email) {
+        User user = getUserByEmail(email);
+        UserDetailsModel userDetails = new UserDetailsModel();
+
+        List<RoleDTO> rolesDTO = new ArrayList<>();
+
+        userDetails.setRoles(mapper.map(user.getRoles(),rolesDTO));
+        userDetails.setEmail(user.getEmail());
+        userDetails.setPassword(user.getPassword());
+
+        return userDetails;
+    }
 
     public boolean addShopToUserPreferredShops(long user_id, ShopDTO shop) {
         User user = getUserById(user_id);
 
         PreferredShop preferredShop = mapper.map(shop, new PreferredShop());
 
-        user.addPrefferedShop(preferredShop);
+        user.addPreferredShop(preferredShop);
         preferredShopRepository.save(preferredShop);
 
         return true;
@@ -92,7 +129,7 @@ public class UserServiceImpl implements UserService {
 
         PreferredShop preferredShop = preferredShopRepository.findPreferredShopById(shop_id);
 
-        user.removePrefferedShop(preferredShop);
+        user.removePreferredShop(preferredShop);
         preferredShopRepository.delete(preferredShop);
         return true;
     }

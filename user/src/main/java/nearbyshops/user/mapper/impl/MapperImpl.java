@@ -1,21 +1,24 @@
 package nearbyshops.user.mapper.impl;
 
 
-import nearbyshops.user.dto.DislikedShopDTO;
-import nearbyshops.user.dto.PreferredShopDTO;
-import nearbyshops.user.dto.ShopDTO;
+import nearbyshops.user.dto.*;
 import nearbyshops.user.entity.DislikedShop;
 import nearbyshops.user.entity.PreferredShop;
+import nearbyshops.user.entity.Role;
+import nearbyshops.user.entity.User;
 import nearbyshops.user.mapper.Mapper;
+import nearbyshops.user.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.swing.*;
+import javax.annotation.security.RolesAllowed;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class MapperImpl implements Mapper {
-
+    @Autowired
+    UserRepository userRepository;
 
     public DislikedShopDTO map(DislikedShop dislikedShop){
         DislikedShopDTO dislikedShopDTO = new DislikedShopDTO();
@@ -24,6 +27,15 @@ public class MapperImpl implements Mapper {
         dislikedShopDTO.setShop_id(dislikedShop.getShop_id());
         dislikedShopDTO.setDislikingTime(dislikedShop.getDislikingTime());
         dislikedShopDTO.setUser(dislikedShop.getUser().getId());
+        dislikedShopDTO.setAddress(dislikedShop.getAddress());
+        dislikedShopDTO.setCategories(dislikedShop.getCategories());
+        dislikedShopDTO.setDist(dislikedShop.getDist());
+        dislikedShopDTO.setLat(dislikedShop.getLat());
+        dislikedShopDTO.setLon(dislikedShop.getLon());
+        dislikedShopDTO.setImgUrl(dislikedShop.getImgUrl());
+        dislikedShopDTO.setName(dislikedShop.getName());
+        dislikedShopDTO.setPhone(dislikedShop.getPhone());
+        dislikedShopDTO.setScore(dislikedShop.getScore());
 
         return dislikedShopDTO;
     }
@@ -35,9 +47,21 @@ public class MapperImpl implements Mapper {
         preferredShopDTO.setId(preferredShop.getId());
         preferredShopDTO.setShop_id(preferredShop.getShop_id());
         preferredShopDTO.setUser(preferredShop.getUser().getId());
+        preferredShopDTO.setAddress(preferredShop.getAddress());
+        preferredShopDTO.setCategories(preferredShop.getCategories());
+        preferredShopDTO.setDist(preferredShop.getDist());
+        preferredShopDTO.setLat(preferredShop.getLat());
+        preferredShopDTO.setLon(preferredShop.getLon());
+        preferredShopDTO.setImgUrl(preferredShop.getImgUrl());
+        preferredShopDTO.setName(preferredShop.getName());
+        preferredShopDTO.setPhone(preferredShop.getPhone());
+        preferredShopDTO.setScore(preferredShop.getScore());
 
         return preferredShopDTO;
     }
+
+
+
 
     public List<PreferredShopDTO> map(List<PreferredShop> preferredShops){
         List<PreferredShopDTO> preferredShopsDTO = new ArrayList<>();
@@ -84,4 +108,62 @@ public class MapperImpl implements Mapper {
 
         return dislikedShop;
     }
+
+
+    public User map(UserDetailsModel userDetailsModel) {
+        User user = new User();
+
+        user.setEmail(userDetailsModel.getEmail());
+        user.setPassword(userDetailsModel.getPassword());
+
+        List<Role> roles = new ArrayList<>();
+        for(RoleDTO roleDTO:userDetailsModel.getRoles()){
+            roles.add(map(roleDTO));
+        }
+        user.setRoles(roles);
+
+        return user;
+    }
+
+
+    public RoleDTO map(Role role) {
+        RoleDTO roleDTO = new RoleDTO();
+
+        roleDTO.setId(role.getId());
+        roleDTO.setRole(role.getRole());
+
+        List<Long> users = new ArrayList<>();
+        for(User user:role.getUsers()){
+            users.add(user.getId());
+        }
+        roleDTO.setUsers(users);
+
+        return roleDTO;
+    }
+
+
+    public List<RoleDTO> map(List<Role> roles,List<RoleDTO> rolesDTO) {
+        for(Role role : roles){
+            rolesDTO.add(map(role));
+        }
+
+        return rolesDTO;
+    }
+
+
+    public Role map(RoleDTO roleDTO) {
+        Role role = new Role();
+
+        role.setId(roleDTO.getId());
+        role.setRole(roleDTO.getRole());
+
+        List<User> users = new ArrayList<>();
+        for (Long user_id:roleDTO.getUsers()){
+            users.add(userRepository.findUserById(user_id));
+        }
+        role.setUsers(users);
+
+        return role;
+    }
+
 }

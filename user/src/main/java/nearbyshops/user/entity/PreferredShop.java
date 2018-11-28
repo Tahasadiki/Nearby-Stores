@@ -1,6 +1,10 @@
 package nearbyshops.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -10,6 +14,7 @@ public class PreferredShop {
     @Id
     @GeneratedValue
     private long id;
+
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="user_id")
@@ -24,6 +29,7 @@ public class PreferredShop {
     private double lat;   // latitude
     private double lon;   // longitude
     private String address;
+    @ElementCollection(targetClass=String.class)
     private List<String> categories;
     private String imgUrl;
 

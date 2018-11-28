@@ -1,12 +1,18 @@
 package nearbyshops.user.entity;
 
+
+
+import nearbyshops.user.dto.RoleDTO;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Entity
 @Table(name = "users") // in order to avoid the reserved word "user"
-public class User {
+public class User{
+
 
     @Id
     @GeneratedValue
@@ -15,18 +21,26 @@ public class User {
     private String email;
     private String password;
 
+
+
     @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE)
     private List<PreferredShop> preferredShops = new ArrayList<>();
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE)
     private List<DislikedShop> dislikedShops = new ArrayList<>();
 
-    public User(String email, String password, List<PreferredShop> preferredShops, List<DislikedShop> dislikedShops) {
-        this.email = email;
-        this.password = password;
-        this.preferredShops = preferredShops;
-        this.dislikedShops = dislikedShops;
-    }
+
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private List<Role> roles = new ArrayList<>();
+
+
 
 
     public User(String email, String password) {
@@ -37,15 +51,24 @@ public class User {
     public User() {
     }
 
+    public User(User user){
+        setDislikedShops(user.getDislikedShops());
+        setEmail(user.getEmail());
+        setId(user.getId());
+        setPassword(user.getPassword());
+        setPreferredShops(user.getPreferredShops());
+        setRoles(user.getRoles());
+    }
+
 
     // add shop to user preffered shops
-    public void addPrefferedShop(PreferredShop prefferedshop){
+    public void addPreferredShop(PreferredShop prefferedshop){
         this.preferredShops.add(prefferedshop);
         prefferedshop.setUser(this);
     }
 
     // remove shop from user preffered shops
-    public void removePrefferedShop(PreferredShop preferredShop) {
+    public void removePreferredShop(PreferredShop preferredShop) {
         this.preferredShops.remove(preferredShop);
     }
 
@@ -58,6 +81,19 @@ public class User {
     // remove shop from user disliked shops
     public void removeDislikedShop(DislikedShop dislikedShop){
         this.dislikedShops.remove(dislikedShop);
+    }
+
+
+    // add Roles
+    public void addRole(Role role){
+        this.roles.add(role);
+        role.getUsers().add(this);
+    }
+
+    // remove role
+    public void removeRole(Role role){
+        this.roles.remove(role);
+        role.getUsers().remove(this);
     }
 
     public long getId() {
@@ -101,4 +137,12 @@ public class User {
         this.dislikedShops = dislikedShops;
     }
 
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
 }
+

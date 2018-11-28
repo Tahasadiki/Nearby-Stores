@@ -4,8 +4,8 @@ package nearbyshops.user.controller;
 import nearbyshops.user.dto.DislikedShopDTO;
 import nearbyshops.user.dto.PreferredShopDTO;
 import nearbyshops.user.dto.ShopDTO;
-import nearbyshops.user.entity.DislikedShop;
-import nearbyshops.user.entity.PreferredShop;
+import nearbyshops.user.dto.UserDetailsModel;
+import nearbyshops.user.entity.Role;
 import nearbyshops.user.entity.User;
 import nearbyshops.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,30 +13,36 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/user")
 @Api(tags="User")
-
 public class UserController {
 
     @Autowired
     UserService userService;
 
+    @GetMapping("/")
+    @ApiOperation("Hello")
+    public String getString() {
+        return "Hello";
+    }
+
+
+
     @GetMapping("/$id={user_id}")
-    @ApiOperation("Get user by id")
-    public User getUserById(@PathVariable("user_id") long id) {
-        User user = userService.getUserById(id);
-        return user;
+    @ApiOperation("Get user details by id")
+    public UserDetailsModel getUserDetailsById(@PathVariable("user_id") long id) {
+        UserDetailsModel userDetails = userService.getUserDetailsById(id);
+        return userDetails;
     }
 
     @GetMapping("/$email={user_email}")
-    @ApiOperation("Get user by email")
-    public User getUserByEmail(@PathVariable("user_email") String email){
-        User user = userService.getUserByEmail(email);
-        return user;
+    @ApiOperation("Get user details by email")
+    public UserDetailsModel getUserDetailsByEmail(@PathVariable("user_email") String email){
+        UserDetailsModel userDetails = userService.getUserDetailsByEmail(email);
+        return userDetails;
     }
 
     @GetMapping("/$id={user_id}/preferredShops")
@@ -55,8 +61,14 @@ public class UserController {
 
     @PostMapping("/addUser")
     @ApiOperation("Add new user")
-    public boolean addUser(@RequestBody String email,@RequestBody String password){
-        return userService.addUser(email,password);
+    public boolean addUser(@RequestBody UserDetailsModel userDetailsModel){
+        return userService.addUser(userDetailsModel);
+    }
+
+    @PostMapping("/addRole")
+    @ApiOperation("Add new role")
+    public boolean addUser(@RequestBody Role role){
+        return userService.addRole(role);
     }
 
     @PutMapping("/addPreferredShop/$user_id{user_id}")
@@ -73,8 +85,8 @@ public class UserController {
 
     @PutMapping("/addDislikedShop/$user_id{user_id}$shop_id{shop_id}")
     @ApiOperation("Add shop to user disliked shops list")
-    public boolean addShopToUserDislikedShops(@PathVariable("user_id") long user_id,@PathVariable("shop_id") String shop_id){
-        return userService.addShopToUserDislikedShops(user_id,shop_id);
+    public boolean addShopToUserDislikedShops(@PathVariable("user_id") long user_id,@RequestBody ShopDTO shop){
+        return userService.addShopToUserDislikedShops(user_id,shop);
     }
 
 
