@@ -12,7 +12,7 @@ import java.util.List;
 public class PreferredShop {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
 
 

@@ -12,6 +12,7 @@ import nearbyshops.user.repository.RoleRepository;
 import nearbyshops.user.repository.UserRepository;
 import nearbyshops.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -60,8 +61,9 @@ public class UserServiceImpl implements UserService {
             return false;
         }
 
+
         User user = mapper.map(userDetailsModel);
-        Role role = roleRepository.findRoleByRole("USER");
+        Role role = new Role("USER");
         user.addRole(role);
 
         roleRepository.save(role);

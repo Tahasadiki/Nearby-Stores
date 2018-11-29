@@ -1,0 +1,20 @@
+<!DOCTYPE >
+<html >
+<head>
+    <title>Title</title>
+
+    <link rel="stylesheet" href="../../static/css/style.css" th:href="@{css/style.css}"/>
+    <link rel="stylesheet" href="../../static/css/flatly/bootstrap.min.css" th:href="@{css/flatly/bootstrap.min.css}"/>
+    <script th:src="@{webjars/jquery/jquery.min.js}"></script>
+    <script th:src="@{webjars/bootstrap/bootstrap.min.js}"></script>
+</head>
+<body>
+    <div th:replace="fragments/header::header"></div>
+
+    <div layout:fragment="content">
+
+    </div>
+
+    <div th:replace="fragments/footer::footer"></div>
+</body>
+</html>

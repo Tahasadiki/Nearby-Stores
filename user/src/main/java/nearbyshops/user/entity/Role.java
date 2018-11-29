@@ -4,6 +4,7 @@ package nearbyshops.user.entity;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,9 +13,10 @@ public class Role  {
 
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
 
+    @NotEmpty
     private String role;
 
     @ManyToMany(mappedBy = "roles")

@@ -9,6 +9,7 @@ import nearbyshops.user.entity.User;
 import nearbyshops.user.mapper.Mapper;
 import nearbyshops.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.security.RolesAllowed;
@@ -113,8 +114,11 @@ public class MapperImpl implements Mapper {
     public User map(UserDetailsModel userDetailsModel) {
         User user = new User();
 
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        user.setPassword(encoder.encode(userDetailsModel.getPassword()));
+
         user.setEmail(userDetailsModel.getEmail());
-        user.setPassword(userDetailsModel.getPassword());
+
 
         List<Role> roles = new ArrayList<>();
         for(RoleDTO roleDTO:userDetailsModel.getRoles()){

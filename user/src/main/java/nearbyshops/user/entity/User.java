@@ -5,6 +5,9 @@ package nearbyshops.user.entity;
 import nearbyshops.user.dto.RoleDTO;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,10 +18,15 @@ public class User{
 
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
 
+    @Email
+    @NotEmpty
+    @Column(unique = true)
     private String email;
+    @NotEmpty
+    @Size(min=4)
     private String password;
 
 
