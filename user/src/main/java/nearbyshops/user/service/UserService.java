@@ -14,14 +14,14 @@ public interface UserService {
 
     public User getUserById(long id);
     public User getUserByEmail(String email);
-    public List<PreferredShopDTO> getUserPreferredShops(long id);
-    public boolean isUserExist(String email);
-    public boolean addUser(UserDetailsModel userDetailsModel);
+    public List<PreferredShopDTO> getUserPreferredShops(User user);
+    public boolean isEmailExist(String email);
+    public boolean addUser(User user);
     public boolean removeUser(long id);
-    public boolean addShopToUserPreferredShops(long user_id, ShopDTO shop);
-    public boolean removeShopFromUserPreferredShops(long user_id,long shop_id);
-    public boolean addShopToUserDislikedShops(long user_id,ShopDTO shop);
-    public List<DislikedShopDTO> updatedUserDislikedShops(long user_id);
+    public boolean addShopToUserPreferredShops(User user, ShopDTO shop);
+    public boolean removeShopFromUserPreferredShops(User user,long shop_id);
+    public boolean addShopToUserDislikedShops(User user,ShopDTO shop);
+    public List<DislikedShopDTO> updatedUserDislikedShops(User user);
     public boolean addRole(Role role);
     public UserDetailsModel getUserDetailsById(long id);
 

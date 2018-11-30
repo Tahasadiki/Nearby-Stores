@@ -49,20 +49,17 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    public List<PreferredShopDTO> getUserPreferredShops(long id) {
+    public List<PreferredShopDTO> getUserPreferredShops(User user) {
         List<PreferredShopDTO> preferredShopsDTO;
-        preferredShopsDTO = mapper.map(getUserById(id).getPreferredShops());
+        preferredShopsDTO = mapper.map(user.getPreferredShops());
         return preferredShopsDTO;
     }
 
 
-    public boolean addUser(UserDetailsModel userDetailsModel) {
-        if (isUserExist(userDetailsModel.getEmail())){
-            return false;
-        }
+    public boolean addUser(User user) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        user.setPassword(encoder.encode(user.getPassword()));
 
-
-        User user = mapper.map(userDetailsModel);
         Role role = new Role("USER");
         user.addRole(role);
 
@@ -112,8 +109,7 @@ public class UserServiceImpl implements UserService {
         return userDetails;
     }
 
-    public boolean addShopToUserPreferredShops(long user_id, ShopDTO shop) {
-        User user = getUserById(user_id);
+    public boolean addShopToUserPreferredShops(User user, ShopDTO shop) {
 
         PreferredShop preferredShop = mapper.map(shop, new PreferredShop());
 
@@ -124,10 +120,8 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    public boolean removeShopFromUserPreferredShops(long user_id, long shop_id) {
+    public boolean removeShopFromUserPreferredShops(User user, long shop_id) {
         // shop_id here is the id of the row in the preferredShops table
-
-        User user = getUserById(user_id);
 
         PreferredShop preferredShop = preferredShopRepository.findPreferredShopById(shop_id);
 
@@ -137,8 +131,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    public boolean addShopToUserDislikedShops(long user_id, ShopDTO shop) {
-        User user = getUserById(user_id);
+    public boolean addShopToUserDislikedShops(User user, ShopDTO shop) {
 
         DislikedShop dislikedShop = mapper.map(shop, new DislikedShop());
         dislikedShop.setDislikingTime(new Date()); // dislikingTime = current time
@@ -149,10 +142,9 @@ public class UserServiceImpl implements UserService {
     }
 
     // get updated disliked shops list based on how much time passed since the user disliked each shop in the list
-    public List<DislikedShopDTO> updatedUserDislikedShops(long user_id) {
+    public List<DislikedShopDTO> updatedUserDislikedShops(User user) {
         List<DislikedShopDTO> dislikedShopsDTO = new ArrayList<>();
 
-        User user = getUserById(user_id);
         Date currentDateTime = new Date();
         long threshold = 2; // in hours
         long diffHours;
@@ -173,11 +165,12 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    public boolean isUserExist(String email) {
-        if (getUserByEmail(email)==null){
-            return false;
+    public boolean isEmailExist(String email) {
+        User user = getUserByEmail(email);
+        if (user != null){
+            return true;
         }
-        return true;
+        return false;
     }
 
 }

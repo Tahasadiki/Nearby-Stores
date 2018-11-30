@@ -9,17 +9,19 @@ import nearbyshops.user.entity.Role;
 import nearbyshops.user.entity.User;
 import nearbyshops.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/user")
 @Api(tags="User")
 public class UserRestController {
-
+/*
     @Autowired
     UserService userService;
 
@@ -56,13 +58,13 @@ public class UserRestController {
 
     @PostMapping("/addUser")
     @ApiOperation("Add new user")
-    public boolean addUser(@RequestBody UserDetailsModel userDetailsModel){
-        return userService.addUser(userDetailsModel);
+    public boolean addUser(@RequestBody User user){
+        return userService.addUser(user);
     }
 
     @PostMapping("/addRole")
     @ApiOperation("Add new role")
-    public boolean addUser(@RequestBody Role role){
+    public boolean addRole(@RequestBody Role role){
         return userService.addRole(role);
     }
 
@@ -85,6 +87,6 @@ public class UserRestController {
     }
 
 
-
+*/
 
 }

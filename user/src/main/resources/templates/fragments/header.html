@@ -9,19 +9,22 @@
         <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Homeeeee <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Login</a>
+                    <a class="nav-link" href="/login">Log in</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/signup">Sign up</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Nearby Shops</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Preferred Shops</a>
+                    <a class="nav-link" href="/preferredShops">Preferred Shops</a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
+            <form class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="post">
                 <input class="form-control mr-sm-2" type="hidden">
                 <button class="btn btn-secondary my-2 my-sm-0" type="submit">Logout</button>
             </form>

@@ -1,0 +1,37 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymleaf/layout"
+      layout:decorator="~{fragments/main_layout}"  >
+<head>
+
+    <title>List preferred shops</title>
+
+</head>
+<body>
+
+    <div layout:fragment="content" class="container myContent">
+
+        <div class="card">
+            <div class="card card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Distance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="shop:${preferredShops}">
+                            <td th:text="${shop.name}"></td>
+                            <td th:text="${shop.dist}"></td>
+                            <td><a th:href="@{/removePreferredShop(id=${shop.id})}" class="btn btn-dark">Remove</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -25,7 +25,6 @@ public class User{
     @NotEmpty
     @Column(unique = true)
     private String email;
-    @NotEmpty
     @Size(min=4)
     private String password;
 
@@ -59,14 +58,6 @@ public class User{
     public User() {
     }
 
-    public User(User user){
-        setDislikedShops(user.getDislikedShops());
-        setEmail(user.getEmail());
-        setId(user.getId());
-        setPassword(user.getPassword());
-        setPreferredShops(user.getPreferredShops());
-        setRoles(user.getRoles());
-    }
 
 
     // add shop to user preffered shops
