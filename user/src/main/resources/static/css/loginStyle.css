@@ -1,0 +1,67 @@
+html,body{
+    height:100%;
+}
+
+.row{
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+.login-register-form-section {
+    max-width: 350px;
+    margin: 0 auto;
+}
+.login-register-form-section i {
+    width: 10px;
+}
+.login-register-form-section .nav-tabs > li > a {
+    color: #2abb9b;
+}
+
+.login-register-form-section .nav-tabs > li.active > a {
+    background-color: #2abb9b;
+    border-color: #2abb9b;
+    color: white;
+}
+.login-register-form-section .nav-tabs > li > a,
+.login-register-form-section .nav-tabs > li.active > a {
+    width: 160px;
+    text-align: center;
+    border-radius: 0;
+}
+.login-register-form-section .nav-tabs {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+.login-register-form-section .btn-custom {
+    width: 100%;
+    background-color: #2abb9b;
+    border-color: #2abb9b;
+    margin-bottom: 0.5em;
+    border-radius: 0;
+}
+.login-register-form-section .btn-custom:hover {
+    width: 100%;
+    background-color: #48A497;
+    border-color: #2abb9b;
+}
+.login-register-form-section .form-group {
+    padding: 0 20px;
+}
+
+.pad{
+    padding-left: 2.375rem;
+}
+
+.icon-inside{
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+    padding-left: 1rem;
+}

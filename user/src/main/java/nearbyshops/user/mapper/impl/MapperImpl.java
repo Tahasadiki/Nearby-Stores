@@ -57,6 +57,7 @@ public class MapperImpl implements Mapper {
         preferredShopDTO.setName(preferredShop.getName());
         preferredShopDTO.setPhone(preferredShop.getPhone());
         preferredShopDTO.setScore(preferredShop.getScore());
+        preferredShopDTO.setUrl(preferredShop.getUrl());
 
         return preferredShopDTO;
     }
@@ -88,6 +89,7 @@ public class MapperImpl implements Mapper {
         preferredShop.setLon(shop.getLon());
         preferredShop.setCategories(shop.getCategories());
         preferredShop.setImgUrl(shop.getImgUrl());
+        preferredShop.setPhone(shop.getPhone());
 
 
         return preferredShop;
@@ -105,29 +107,11 @@ public class MapperImpl implements Mapper {
         dislikedShop.setLon(shop.getLon());
         dislikedShop.setCategories(shop.getCategories());
         dislikedShop.setImgUrl(shop.getImgUrl());
-
+        dislikedShop.setPhone(shop.getPhone());
 
         return dislikedShop;
     }
 
-
-    public User map(UserDetailsModel userDetailsModel) {
-        User user = new User();
-
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        user.setPassword(encoder.encode(userDetailsModel.getPassword()));
-
-        user.setEmail(userDetailsModel.getEmail());
-
-
-        List<Role> roles = new ArrayList<>();
-        for(RoleDTO roleDTO:userDetailsModel.getRoles()){
-            roles.add(map(roleDTO));
-        }
-        user.setRoles(roles);
-
-        return user;
-    }
 
 
     public RoleDTO map(Role role) {
@@ -168,6 +152,46 @@ public class MapperImpl implements Mapper {
         role.setUsers(users);
 
         return role;
+    }
+
+
+    public ShopDTO map(PreferredShopDTO preferredShopDTO) {
+        ShopDTO shopDTO = new ShopDTO();
+
+        shopDTO.setAddress(preferredShopDTO.getAddress());
+        shopDTO.setShop_id(preferredShopDTO.getShop_id());
+        shopDTO.setName(preferredShopDTO.getName());
+        shopDTO.setPhone(preferredShopDTO.getPhone());
+        shopDTO.setScore(preferredShopDTO.getScore());
+        shopDTO.setUrl(preferredShopDTO.getUrl());
+        shopDTO.setDist(preferredShopDTO.getDist());
+        shopDTO.setLat(preferredShopDTO.getLat());
+        shopDTO.setLon(preferredShopDTO.getLon());
+        shopDTO.setCategories(preferredShopDTO.getCategories());
+        shopDTO.setImgUrl(preferredShopDTO.getImgUrl());
+
+
+        return shopDTO;
+    }
+
+
+    public ShopDTO map(DislikedShopDTO dislikedShopDTO) {
+        ShopDTO shopDTO = new ShopDTO();
+
+        shopDTO.setAddress(dislikedShopDTO.getAddress());
+        shopDTO.setShop_id(dislikedShopDTO.getShop_id());
+        shopDTO.setName(dislikedShopDTO.getName());
+        shopDTO.setPhone(dislikedShopDTO.getPhone());
+        shopDTO.setScore(dislikedShopDTO.getScore());
+        shopDTO.setUrl(dislikedShopDTO.getUrl());
+        shopDTO.setDist(dislikedShopDTO.getDist());
+        shopDTO.setLat(dislikedShopDTO.getLat());
+        shopDTO.setLon(dislikedShopDTO.getLon());
+        shopDTO.setCategories(dislikedShopDTO.getCategories());
+        shopDTO.setImgUrl(dislikedShopDTO.getImgUrl());
+
+
+        return shopDTO;
     }
 
 }

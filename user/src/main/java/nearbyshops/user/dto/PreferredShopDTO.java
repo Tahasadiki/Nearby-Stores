@@ -132,4 +132,6 @@ public class PreferredShopDTO {
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
+
+
 }

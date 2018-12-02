@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/","/signup","/register","/login","/css/**","/webjars/**").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").permitAll()
-                .defaultSuccessUrl("/nearbyShops")
+                .defaultSuccessUrl("/")
                 .and().logout().logoutSuccessUrl("/login");
 
     }

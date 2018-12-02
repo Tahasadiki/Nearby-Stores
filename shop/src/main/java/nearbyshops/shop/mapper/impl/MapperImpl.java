@@ -33,6 +33,7 @@ public class MapperImpl implements Mapper {
             shop.setLon(result.getPosition().getLon());
             shop.setAddress(result.getAddress().getAddress());
             shop.setCategories(result.getPoi().getCategories());
+            shop.setImgUrl("");
 
             // adding the result to the new shop list
             shops.add(shop);

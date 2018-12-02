@@ -7,6 +7,7 @@ import nearbyshops.user.entity.PreferredShop;
 import nearbyshops.user.entity.Role;
 import nearbyshops.user.entity.User;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface Mapper {
@@ -16,8 +17,10 @@ public interface Mapper {
     public List<PreferredShopDTO> map(List<PreferredShop> preferredShops);
     public PreferredShop map(ShopDTO shop, PreferredShop preferredShop);
     public DislikedShop map(ShopDTO shop, DislikedShop dislikedShop);
-    public User map(UserDetailsModel userDetailsModel);
     public RoleDTO map(Role role);
     public List<RoleDTO> map(List<Role> roles,List<RoleDTO> rolesDTO);
     public Role map(RoleDTO roleDTO);
+
+    public ShopDTO map(PreferredShopDTO preferredShopDTO);
+    public ShopDTO map(DislikedShopDTO dislikedShopDTO);
 }

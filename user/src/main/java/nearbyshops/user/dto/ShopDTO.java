@@ -1,7 +1,9 @@
 package nearbyshops.user.dto;
 
+import org.springframework.stereotype.Component;
 
 import java.util.List;
+
 
 public class ShopDTO {
 
@@ -106,5 +108,31 @@ public class ShopDTO {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ShopDTO shopDTO = (ShopDTO) o;
+
+        if (Double.compare(shopDTO.lat, lat) != 0) return false;
+        if (Double.compare(shopDTO.lon, lon) != 0) return false;
+        if (!shop_id.equals(shopDTO.shop_id)) return false;
+        return name.equals(shopDTO.name);
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = shop_id.hashCode();
+        result = 31 * result + name.hashCode();
+        temp = Double.doubleToLongBits(lat);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(lon);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 public class DislikedShop {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue
     private long id;
 
     private Date dislikingTime;

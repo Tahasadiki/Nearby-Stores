@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
     public List<PreferredShopDTO> getUserPreferredShops(User user) {
         List<PreferredShopDTO> preferredShopsDTO;
-        preferredShopsDTO = mapper.map(user.getPreferredShops());
+        preferredShopsDTO = mapper.map(preferredShopRepository.findPreferredShopsByUser(user));
         return preferredShopsDTO;
     }
 
@@ -82,31 +82,21 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
-    @Override
-    public UserDetailsModel getUserDetailsById(long id) {
-        User user = getUserById(id);
-        UserDetailsModel userDetails = new UserDetailsModel();
-
-        List<RoleDTO> rolesDTO = new ArrayList<>();
-
-        userDetails.setPassword(user.getPassword());
-        userDetails.setEmail(user.getEmail());
-        userDetails.setRoles(mapper.map(user.getRoles(),rolesDTO));
-        return userDetails;
-    }
 
     @Override
-    public UserDetailsModel getUserDetailsByEmail(String email) {
-        User user = getUserByEmail(email);
-        UserDetailsModel userDetails = new UserDetailsModel();
+    public List<ShopDTO> filterUserNearbyShops(User user, List<ShopDTO> shops) {
 
-        List<RoleDTO> rolesDTO = new ArrayList<>();
+        List<PreferredShopDTO> preferredShops = getUserPreferredShops(user);
+        for (PreferredShopDTO preferredShopDTO : preferredShops){
+            shops.remove(mapper.map(preferredShopDTO));
+        }
 
-        userDetails.setRoles(mapper.map(user.getRoles(),rolesDTO));
-        userDetails.setEmail(user.getEmail());
-        userDetails.setPassword(user.getPassword());
+        List<DislikedShopDTO> dislikedShops = updatedUserDislikedShops(user);
+        for (DislikedShopDTO dislikedShopDTO : dislikedShops){
+            shops.remove(mapper.map(dislikedShopDTO));
+        }
 
-        return userDetails;
+        return shops;
     }
 
     public boolean addShopToUserPreferredShops(User user, ShopDTO shop) {

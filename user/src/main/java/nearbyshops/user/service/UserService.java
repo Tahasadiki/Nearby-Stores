@@ -4,7 +4,6 @@ package nearbyshops.user.service;
 import nearbyshops.user.dto.DislikedShopDTO;
 import nearbyshops.user.dto.PreferredShopDTO;
 import nearbyshops.user.dto.ShopDTO;
-import nearbyshops.user.dto.UserDetailsModel;
 import nearbyshops.user.entity.Role;
 import nearbyshops.user.entity.User;
 
@@ -23,7 +22,5 @@ public interface UserService {
     public boolean addShopToUserDislikedShops(User user,ShopDTO shop);
     public List<DislikedShopDTO> updatedUserDislikedShops(User user);
     public boolean addRole(Role role);
-    public UserDetailsModel getUserDetailsById(long id);
-
-    UserDetailsModel getUserDetailsByEmail(String email);
+    List<ShopDTO> filterUserNearbyShops(User user, List<ShopDTO> shops);
 }
