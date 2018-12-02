@@ -50,10 +50,10 @@ For our project the keyword used is "shop"
 
 
 ## To do
+
 - [ ] As a User, I can filter results by shop categories
 - [ ] As a User, I can add more keywords to search
-- [ ] As a User, I can display the list of shops sorted by distance
-- [ ] As a User, I can like a shop, so it can be added to my preferred shops
+- [ ] Configure Eureka server to manage the microservices
 
 ## Notes
 
