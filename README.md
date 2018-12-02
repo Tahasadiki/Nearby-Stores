@@ -18,7 +18,7 @@ The project is about implementing an app that lists shops nearby.
 ## Technical spec
 
 * PostgreSQL
-* Java + spring boot + thymleaf  
+* Java + spring boot + thymeleaf  
 
 ## Deployment
 
