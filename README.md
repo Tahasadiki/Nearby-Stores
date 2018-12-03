@@ -57,4 +57,5 @@ For our project the keyword used is "shop"
 - [ ] Configure Eureka server to manage the microservices
 
 ## Notes
+* in the preview above the coordinates used are : lat=37.8085  &l  on=-122.4239 for the sole pupose of showing the "go to website" feature 
 
