@@ -1,3 +1,4 @@
+![alt text](https://raw.githubusercontent.com/Tahasadiki/Nearby-Stores/dev/NearbyShopsAppPreview.png)
 # Nearby Shops
 
 The project is about implementing an app that lists shops nearby. 
