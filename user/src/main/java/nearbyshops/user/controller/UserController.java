@@ -29,43 +29,53 @@ public class UserController {
     RestTemplate restTemplate;
 
     @GetMapping("/")
-    public String getIndex(Model model,Principal principal) {
+    public String getIndex(@RequestParam(name="lat",required = false) Double lat, @RequestParam(name="lon",required = false) Double lon, Model model, Principal principal) {
 
         if (principal == null) {
             model.addAttribute("user", new User());
             return "login";
         }
 
-        listNearbyShops(model,principal);
+        if(lat==null || lon==null){
+            model.addAttribute("positionExist",false);
+            return "index";
+        }
+
+        listNearbyShops(lat,lon,model,principal);
         listPreferredShops(model,principal);
 
         return "index";
     }
 
+    @PostMapping("/")
+    public String postIndex(@RequestParam(name="lat") Double lat, @RequestParam(name="lon") Double lon, Model model, Principal principal){
+        return getIndex(lat,lon,model,principal);
+    }
+
     @PostMapping(value = "/register")
-    public String registerUser(@Valid User user, BindingResult bindingResult, Model model,Principal principal){
+    public String registerUser(@Valid User user, BindingResult bindingResult, Model model,Principal principal,@RequestParam(name="lat",required = false) Double lat, @RequestParam(name="lon",required = false) Double lon){
 
         boolean userExist = userService.isEmailExist(user.getEmail());
         if (userExist){
             model.addAttribute("registerError",true);
             model.addAttribute("errorMsg","Email already exist");
-            return getIndex(model,principal);
+            return getIndex(lat,lon,model,principal);
         }
 
         if( bindingResult.hasErrors()){
             model.addAttribute("registerError",true);
             model.addAttribute("errorMsg","Email not valid Or password less than 4 characters");
-            return getIndex(model,principal);
+            return getIndex(lat,lon,model,principal);
         }
 
         userService.addUser(user);
         model.addAttribute("registrationSuccess",true);
-        return getIndex(model,principal);
+        return getIndex(lat,lon,model,principal);
     }
 
     @GetMapping("/login")
-    public String getLogInForm( Model model,Principal principal){
-        return getIndex(model,principal);
+    public String getLogInForm( Model model,Principal principal,@RequestParam(name="lat",required = false) Double lat, @RequestParam(name="lon",required = false) Double lon){
+        return getIndex(lat,lon,model,principal);
     }
 
     @GetMapping("/preferredShops")
@@ -77,7 +87,7 @@ public class UserController {
     }
 
     @PostMapping("/removePreferredShop")
-    public String removePreferredShop(@RequestParam("id") long id, Model model,Principal principal ){
+    public String removePreferredShop(@RequestParam("id") long id, Model model,Principal principal,@RequestParam(name="lat",required = false) Double lat, @RequestParam(name="lon",required = false) Double lon ){
         String email = principal.getName();
         User user = userService.getUserByEmail(email);
 
@@ -85,17 +95,18 @@ public class UserController {
 
         model.addAttribute("preferredShopsTab",true); // Go to the tab of preferred shops
 
-        return getIndex(model,principal);
+        return getIndex(lat,lon,model,principal);
     }
 
     @GetMapping("/nearbyShops")
-    public String listNearbyShops(Model model, Principal principal){
+    public String listNearbyShops(Double lat,Double lon,Model model, Principal principal){
 
         String email = principal.getName();
         User user = userService.getUserByEmail(email);
 
         //all the nearby shops from the shopService
         String url = "http://localhost:9001/$lat=37.8085$lon=-122.4239$radius=1000/nearbyShops";
+        //String url = "http://localhost:9001/$lat=" + lat + "$lon=" + lon +"$radius=1000/nearbyShops";   // radius == 1000 m
         ResponseEntity<List<ShopDTO>> responseEntity = restTemplate.exchange(url, HttpMethod.GET,
                 null, new ParameterizedTypeReference<List<ShopDTO>>() {});
 
@@ -113,25 +124,25 @@ public class UserController {
     }
 
     @PostMapping("/like")
-    public String addShopToUserPreferredShops(@ModelAttribute("shopDTO") ShopDTO shop, Model model ,Principal principal){
+    public String addShopToUserPreferredShops(@ModelAttribute("shopDTO") ShopDTO shop, Model model ,Principal principal,@RequestParam(name="lat",required = false) Double lat, @RequestParam(name="lon",required = false) Double lon){
 
         String email = principal.getName();
         User user = userService.getUserByEmail(email);
 
         userService.addShopToUserPreferredShops(user,shop);
 
-        return getIndex(model,principal);
+        return getIndex(lat,lon,model,principal);
     }
 
     @PostMapping("/dislike")
-    public String addShopToUserDislikedShops(@ModelAttribute("shopDTO") ShopDTO shop,Model model, Principal principal){
+    public String addShopToUserDislikedShops(@ModelAttribute("shopDTO") ShopDTO shop,Model model, Principal principal,@RequestParam(name="lat",required = false) Double lat, @RequestParam(name="lon",required = false) Double lon){
 
         String email = principal.getName();
         User user = userService.getUserByEmail(email);
 
         userService.addShopToUserDislikedShops(user,shop);
 
-        return getIndex(model,principal);
+        return getIndex(lat,lon,model,principal);
     }
 
 

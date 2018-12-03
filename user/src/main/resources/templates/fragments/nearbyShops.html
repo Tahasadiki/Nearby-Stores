@@ -26,7 +26,7 @@
                         </div>
                         <div class="content">
                             <div class="main">
-                                <p class="text-center" th:inline="text"><i class="fa fa-phone" ></i> [[${shop.phone}]]</p>
+                                <p class="text-center" th:if="${shop.phone} != null" th:inline="text"><i class="fa fa-phone" ></i> [[${shop.phone}]]</p>
                                 <p class="text-center" th:inline="text"><i class="fa fa-map-marker"></i> [[${shop.address}]]</p>
 
                                 <p class="text-center website"><a th:if="${shop.url != null}" th:href="@{|http://${shop.url}|}"><button type="button" class="btn btn-outline-info">Go To Website</button></a></p>
@@ -47,6 +47,9 @@
                                         <input type="hidden"  th:value="${shop.address}" name="address"/>
                                         <input type="hidden"  th:value="${shop.categories}" name="categories"/>
                                         <input type="hidden"  th:value="${shop.imgUrl}" name="imgUrl"/>
+
+                                        <input type="hidden" class="latitude" name="lat">
+                                        <input type="hidden" class="longitude" name="lon">
                                         <button type="submit" class="btn btn-outline-success" ><span class="fa fa-thumbs-up"></span> Like</button>
                                     </form>
                                 </div>
@@ -63,6 +66,9 @@
                                         <input type="hidden"  th:value="${shop.address}" name="address"/>
                                         <input type="hidden"  th:value="${shop.categories}" name="categories"/>
                                         <input type="hidden"  th:value="${shop.imgUrl}" name="imgUrl"/>
+
+                                        <input type="hidden" class="latitude" name="lat">
+                                        <input type="hidden" class="longitude" name="lon">
                                         <button type="submit" class="btn btn-outline-danger" ><span class="fa fa-thumbs-down"></span> Dislike</button>
                                     </form>
                                 </div>

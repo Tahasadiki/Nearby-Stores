@@ -1,7 +1,7 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Login / Register</title>
+    <title>NS Login|Register</title>
 
 
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -42,7 +42,7 @@
                 <div role="tabpanel" class="tab-pane " th:classappend="${registerError} ? fade : active" id="login">
                     <div class="alert alert-danger" th:if="${param.error}"> Invalid email or password </div>
                     <div class="alert alert-success" th:if="${registrationSuccess}"> You have successfully registered -- Please login  </div>
-                    <form class="form-horizontal" th:action="@{/login}" method="post">
+                    <form class="form-horizontal" th:action="@{/login}" method="POST">
                         <div class="form-group " >
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="fa fa-user icon-inside"></i></div>

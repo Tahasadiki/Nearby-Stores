@@ -14,6 +14,18 @@
     <!-- Material Kit CSS -->
     <link href="../static/css/materialKit/css/material-kit.min.css" rel="stylesheet" th:href="@{css/materialKit/css/material-kit.min.css}" />
 
+    <script>
+        $(function() {
+            // One-shot position request.
+            navigator.geolocation.getCurrentPosition(callback);
+        });
+        function callback(position) {
+            $('.latitude').prop("value", position.coords.latitude);
+            $('.longitude').prop("value", position.coords.longitude);
+
+        }
+    </script>
+
 </head>
 <body>
 
@@ -22,7 +34,12 @@
     <div class="container">
         <div class="section text-center">
             <h2 class="title">Find Your Nearest Shop</h2>
-            <div  class="container myContent">
+            <form th:action="@{/}" method="POST">
+                <input type="hidden" class="latitude" name="lat">
+                <input type="hidden" class="longitude" name="lon">
+                <button class="btn btn-info btn-round" th:if="${positionExist}!=null" >Find Now</button>
+            </form>
+            <div  class="container myContent" th:if="${positionExist}==null">
 
                 <ul class="nav nav-pills justify-content-center" role="tablist" id="tabs-links">
                     <li class="nav-item">
