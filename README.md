@@ -55,7 +55,10 @@ For our project the keyword used is "shop"
 - [ ] As a User, I can filter results by shop categories
 - [ ] As a User, I can add more keywords to search
 - [ ] Configure Eureka server to manage the microservices
+- [ ] Use Ajax to send "like", "dislike" & "delete" post requests without reloading the page
+- [ ] Add pagination and extend the number of results
 
 ## Notes
-* in the preview above the coordinates used are : lat=37.8085  &l  on=-122.4239 for the sole pupose of showing the "go to website" feature 
+* In the preview above the coordinates used are : lat=37.8085  &l  on=-122.4239 for the sole pupose of showing the "go to website" feature 
+* The number of results retrieved from the TomTom API is limited to 10 results in our case, but can be extended to all possible results by adding ```&Limit=(#number of results)```. (waiting to add pagination before extending the number of results)
 
