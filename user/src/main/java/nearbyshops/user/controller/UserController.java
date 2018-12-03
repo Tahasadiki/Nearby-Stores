@@ -105,8 +105,8 @@ public class UserController {
         User user = userService.getUserByEmail(email);
 
         //all the nearby shops from the shopService
-        String url = "http://localhost:9001/$lat=37.8085$lon=-122.4239$radius=1000/nearbyShops";
-        //String url = "http://localhost:9001/$lat=" + lat + "$lon=" + lon +"$radius=1000/nearbyShops";   // radius == 1000 m
+
+        String url = "http://localhost:9001/$lat=" + lat + "$lon=" + lon +"$radius=1000/nearbyShops";   // radius == 1000 m
         ResponseEntity<List<ShopDTO>> responseEntity = restTemplate.exchange(url, HttpMethod.GET,
                 null, new ParameterizedTypeReference<List<ShopDTO>>() {});
 
