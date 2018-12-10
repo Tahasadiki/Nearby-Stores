@@ -1,0 +1,78 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymleaf/layout"
+      layout:decorate="~{fragments/main_layout}"  >
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    <!-- Material Kit CSS -->
+    <link href="../static/css/materialKit/css/material-kit.min.css" rel="stylesheet" th:href="@{css/materialKit/css/material-kit.min.css}" />
+
+    <script>
+        $(function() {
+            // One-shot position request.
+            navigator.geolocation.getCurrentPosition(callback);
+        });
+        function callback(position) {
+            $('.latitude').prop("value", position.coords.latitude);
+            $('.longitude').prop("value", position.coords.longitude);
+
+        }
+    </script>
+
+</head>
+<body>
+
+<div layout:fragment="content">
+<div class="main main-raised">
+    <div class="container">
+        <div class="section text-center">
+            <h2 class="title">Find Your Nearest Shop</h2>
+            <form th:action="@{/}" method="POST">
+                <input type="hidden" class="latitude" name="lat">
+                <input type="hidden" class="longitude" name="lon">
+                <button class="btn btn-info btn-round" th:if="${positionExist}!=null" >Find Now</button>
+            </form>
+            <div  class="container myContent" th:if="${positionExist}==null">
+
+                <ul class="nav nav-pills justify-content-center" role="tablist" id="tabs-links">
+                    <li class="nav-item">
+                        <a class="nav-link " th:classappend="${preferredShopsTab} ? notActive : active" data-toggle="tab" href="#NearbyShops">Nearby Shops</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"  data-toggle="tab" href="#PreferredShops">My Preferred Shops</a>
+                    </li>
+                </ul>
+
+                <!-- To control which tab to show on page load -->
+                <script th:if="${preferredShopsTab}" th:inline="javascript">
+                    var tabToSelect = "PreferredShops";
+                    $(document).ready(function() {
+                        $('#tabs-links').find('a[href="#'+tabToSelect+'"]').tab('show')
+                    });
+                </script>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div id="NearbyShops" class="container tab-pane" th:classappend="${preferredShopsTab} ? fade : active"><br>
+                        <div th:replace="fragments/nearbyShops::nearbyShopsFrag"></div>
+                    </div>
+                    <div id="PreferredShops" class="container tab-pane fade"><br>
+                        <div th:replace="fragments/preferredShops::preferredShopsFrag" ></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+</body>
+</html>

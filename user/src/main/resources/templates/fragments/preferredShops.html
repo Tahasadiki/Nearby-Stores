@@ -1,0 +1,54 @@
+
+<div class="container" th:fragment="preferredShopsFrag">
+    <div class="row">
+        <div class="col-md-4" th:each="shop:${preferredShops}" >
+            <div class="card-container">
+                <div class="card">
+                    <div class="front">
+                        <div class="cover">
+                            <img src="https://png.pngtree.com/back_origin_pic/05/06/04/94b8003a7185c01852c76c9e3d119d02.jpg"/>
+                        </div>
+                        <div class="user">
+                            <img class="img-circle" src="https://walkthechat.com/wp-content/uploads/2017/01/store-mng-icon-1.png"/>
+                        </div>
+                        <div class="content">
+                            <div class="main">
+                                <h3 class="name" th:text="${shop.name}"></h3>
+                                <p class="profession" th:inline="text">[[${shop.dist}]] m</p>
+                                <p class="text-center" th:each="categorie:${shop.categories}"><span th:inline="text">#[[${categorie}]]</span> </p>
+                            </div>
+                        </div>
+                    </div> <!-- end front panel -->
+                    <div class="back">
+                        <div class="header">
+                            <h4 class="text-center">Contact Info</h4>
+                            <h5 class="motto" th:text="${shop.name}" ></h5>
+                        </div>
+                        <div class="content">
+                            <div class="main">
+                                <p class="text-center" th:if="${shop.phone} != null" th:inline="text"><i class="fa fa-phone" ></i> [[${shop.phone}]]</p>
+                                <p class="text-center" th:inline="text"><i class="fa fa-map-marker"></i> [[${shop.address}]]</p>
+
+                                <p class="text-center website"><a th:if="${shop.url != null}" th:href="@{|http://${shop.url}|}"><button type="button" class="btn btn-outline-info">Go To Website</button></a></p>
+                            </div>
+                        </div>
+                        <div class="footer">
+                            <div class="row row-flex justify-content-between">
+                                <div class="col-md-3">
+                                    <form th:action="@{/removePreferredShop}" method="POST">
+                                        <input type="hidden"  th:value="${shop.id}" name="id"/>
+
+                                        <input type="hidden" class="latitude" name="lat">
+                                        <input type="hidden" class="longitude" name="lon">
+                                        <button type="submit" class="btn btn-outline-danger" ><span class="fa fa-remove"></span> Remove</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- end back panel -->
+                </div> <!-- end card -->
+            </div> <!-- end card-container -->
+        </div>
+    </div>
+
+</div>

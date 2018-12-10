@@ -1,0 +1,90 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>NS Login|Register</title>
+
+
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../static/css/loginStyle.css" type="text/css" th:href="@{css/loginStyle.css}">
+
+</head>
+<body>
+<br>
+<h1 class="text text-center">Welcome.</h1>
+<div class="row h-100 row align-items-center">
+
+    <div class="container">
+        <h2 class="text text-center">Blank Waves <b>bugs</b> Goodbye</h2>
+        <br>
+
+        <div class="login-register-form-section">
+            <ul class="nav nav-tabs" role="tablist" id="tabs-links-login">
+                <li class="nav-item" >
+                    <a class="nav-link active"  href="#login" data-toggle="tab">Login</a>
+                </li>
+                <li class="nav-item" >
+                    <a class="nav-link" href="#register" data-toggle="tab">Register</a>
+                </li>
+            </ul>
+
+            <!-- To control which tab to show on page load -->
+            <script th:if="${registerError}" th:inline="javascript">
+                var tabToSelect = "register";
+                $(document).ready(function() {
+                    $('#tabs-links-login').find('a[href="#'+tabToSelect+'"]').click()
+                });
+            </script>
+
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane " th:classappend="${registerError} ? fade : active" id="login">
+                    <div class="alert alert-danger" th:if="${param.error}"> Invalid email or password </div>
+                    <div class="alert alert-success" th:if="${registrationSuccess}"> You have successfully registered -- Please login  </div>
+                    <form class="form-horizontal" th:action="@{/login}" method="POST">
+                        <div class="form-group " >
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="fa fa-user icon-inside"></i></div>
+                                <input type="text" name="username" class="form-control pad" placeholder="Email" required="required" value="">
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="fa fa-key icon-inside"></i></div>
+                                <input type="password" name="password" class="form-control pad" placeholder="Password" required="required">
+                            </div>
+                        </div>
+                        <input type="submit" value="Login" class="btn btn-success btn-custom">
+
+                    </form>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="register">
+                    <div class="alert alert-info" th:if="${registerError}" th:text="${errorMsg}">Email already exist</div>
+                    <form class="form-horizontal" th:action="@{/register}" th:object="${user}" method="post">
+                        <div class="form-group ">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="fa fa-user icon-inside"></i></div>
+                                <input type="text" class="form-control pad" th:field="*{email}" id="email" placeholder="Email" />
+                                <div class="text text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="fa fa-lock icon-inside"></i></div>
+                                <input type="password" class="form-control pad" th:field="*{password}" id="password" placeholder="Password" />
+                                <div class="text text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                            </div>
+                        </div>
+                        <input type="submit" value="Register" class="btn btn-success btn-custom">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

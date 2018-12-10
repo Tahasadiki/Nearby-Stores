@@ -1,0 +1,32 @@
+server:
+  port: 9001
+
+spring:
+  datasource:
+              url: jdbc:postgresql://localhost:5432/NearbyShops
+              username: postgres
+              password: taha96
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+
+  application:
+    name: shopService
+
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:9000/eureka
+
+  instance:
+      hostname: localhost
+
+
+
+
