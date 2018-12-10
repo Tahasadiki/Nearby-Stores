@@ -1,4 +1,4 @@
-<<<<<<< dev
+
 ![alt text](https://raw.githubusercontent.com/Tahasadiki/Nearby-Stores/dev/NearbyShopsAppPreview.png)
 # Nearby Shops
 
@@ -63,7 +63,3 @@ For our project the keyword used is "shop"
 * In the preview above the coordinates used are : lat=37.8085  &l  on=-122.4239 for the sole pupose of showing the "go to website" feature 
 * The number of results retrieved from the TomTom API is limited to 10 results in our case, but can be extended to all possible results by adding ```&Limit=(#number of results)```. (waiting to add pagination before extending the number of results)
 
-=======
-# Nearby-Stores
-Nearby Shops web application locator using Java EE - Spring boot
->>>>>>> master
